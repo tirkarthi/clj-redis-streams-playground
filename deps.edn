@@ -1,0 +1,12 @@
+{
+ ;; Paths in project
+ :paths ["src", "."]
+
+ ;; Project dependencies, a map from lib to coordinate
+ :deps {
+        clj-time {:mvn/version "0.14.4"}
+        carmine {:local/root "carmine-2.18.1.jar"}
+        }
+ :aliases {:rebel {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
+                   :main-opts  ["-m" "rebel-readline.main"]}}
+ }
