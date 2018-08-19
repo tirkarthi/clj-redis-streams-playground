@@ -8,6 +8,10 @@
 (def server1-conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
 (defmacro wcar* [& body] `(car/wcar server1-conn ~@body))
 
+(defn now-in-ms
+  []
+  (c/to-long (t/now)))
+
 (defn gen-epoch
   "Generate epoch timeseries for a given date"
   [year month day]
@@ -20,9 +24,8 @@
   [& args]
   (let [timestamps   (gen-epoch 2018 8 15)
         temperatures (repeatedly 86400 #(rand-nth (range 20 30)))
-        start        (c/to-long (t/now))]
-    (doseq [[timestamp temperature] (map vector timestamps temperatures)]
-      (wcar* (car/xadd :chennai timestamp :sensor 1 :temperature temperature)))
-    (println "Inserted records successfully in "
-             (quot (- (c/to-long (t/now)) start) 1000)
-             " seconds")))
+        start        (now-in-ms)]
+    (wcar* (doall (map #(car/xadd :chennai %1 :sensor 1 :temperature %2) timestamps temperatures)))
+    (let [end  (now-in-ms)
+          diff (- end start)]
+      (println "Inserted 86400 records successfully in " diff " ms at the rate of " (/ 86400 (float diff)) " records per ms"))))
