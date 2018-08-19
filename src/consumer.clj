@@ -18,7 +18,7 @@
   (let [consumer (keyword (nth args 0))]
     (println "Processing messages by consumer : " (name consumer))
     (loop []
-      (let [message (wcar* (car/xreadgroup :block 0 :group :mygroup :alice
+      (let [message (wcar* (car/xreadgroup :block 0 :group :mygroup consumer
                                            :count 1 :streams :chennai ">"))]
         (process-message message))
       (recur))))
