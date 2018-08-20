@@ -5,7 +5,8 @@
  ;; Project dependencies, a map from lib to coordinate
  :deps {
         clj-time {:mvn/version "0.14.4"}
-        carmine {:local/root "carmine-2.18.1.jar"}
+        carmine {:git/url "https://github.com/tirkarthi/carmine.git"
+                 :sha "24033a2ce8fed255f7473ac80cc401be68a248db"}
         }
  :aliases {:rebel {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
                    :main-opts  ["-m" "rebel-readline.main"]}}
